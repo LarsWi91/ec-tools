@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ec_tools.semi_integration.FRLT_tr &mdash; Semiintegration Documentation 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Semiintegration Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">New</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Semiintegration Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ec_tools.semi_integration.FRLT_tr</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ec_tools.semi_integration.FRLT_tr</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation of an algorithm for semi-integration.</span>
+<span class="sd">Fast Riemann-Liouville transformation (differintergration) - FRLT</span>
+<span class="sd">based on</span>
+<span class="sd">Pajkossy, T., Nyikos, L., 1984. Fast algorithm for differintegration. Journal of Electroanalytical Chemistry and Interfacial Electrochemistry 179, 65–69. https://doi.org/10.1016/S0022-0728(84)80275-2</span>
+<span class="sd">TODO:</span>
+<span class="sd">- evaluate if it is possible have varying Δx i.e. passing x array</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">transonic</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">boost</span><span class="p">,</span> <span class="n">set_compile_at_import</span>
+
+<span class="c1">#set_compile_at_import(True)</span>
+
+<span class="c1">#@boost</span>
+
+<div class="viewcode-block" id="prepare_kernel"><a class="viewcode-back" href="../../../ec_tools.semi_integration.html#ec_tools.semi_integration.FRLT_tr.prepare_kernel">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">backend</span> <span class="o">=</span> <span class="s1">&#39;numba&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">prepare_kernel</span><span class="p">(</span><span class="n">q</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">c1</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">c2</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Setup the integration kernel with the order q, the x interval delat_x, the length of the array N,</span>
+<span class="sd">    and the filter constants c1 and c2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tau0</span> <span class="o">=</span> <span class="n">delta_x</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">tau0</span><span class="o">**</span><span class="n">q</span><span class="p">)</span>
+    <span class="c1"># total number of filters</span>
+    <span class="n">n_filters</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">c2</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># dimension according to the number of filters</span>
+    <span class="c1"># filter weights</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_filters</span><span class="p">)</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_filters</span><span class="p">)</span>
+    <span class="c1"># auxiliary array</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_filters</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">c2</span><span class="p">):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">c2</span>
+        <span class="n">a_j</span> <span class="o">=</span> <span class="p">(</span><span class="n">a0</span> <span class="o">/</span> <span class="n">c2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">j</span> <span class="o">/</span> <span class="n">c2</span><span class="p">)</span>
+        <span class="n">t_j</span> <span class="o">=</span> <span class="n">tau0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">j</span> <span class="o">/</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">c2</span><span class="p">))</span>
+        <span class="n">w1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_j</span> <span class="o">/</span> <span class="p">(</span><span class="n">delta_x</span> <span class="o">+</span> <span class="n">t_j</span><span class="p">)</span>
+        <span class="n">w2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_j</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span></div>
+
+
+<span class="c1">#@boost</span>
+<div class="viewcode-block" id="semi_integration"><a class="viewcode-back" href="../../../ec_tools.semi_integration.html#ec_tools.semi_integration.FRLT_tr.semi_integration">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">backend</span> <span class="o">=</span> <span class="s1">&#39;numba&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">semi_integration</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="s2">&quot;float[:]&quot;</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span> <span class="p">,</span> <span class="n">q</span><span class="p">:</span><span class="nb">float</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c1</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">c2</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the semiintegral R of order q for y with the x interval delta_x and the filter constants</span>
+<span class="sd">    c1 and c2.</span>
+
+<span class="sd">    Semi-integrating two times with order q = -0.5 should give the same result as integrating once.</span>
+<span class="sd">    The relative error should not exceed 0.25 percent for 1000 and 0.5 percent per 10000 integration steps.</span>
+<span class="sd">    TODO:: see #6</span>
+<span class="sd">    - add test for non constant y values</span>
+
+<span class="sd">    TEST:</span>
+<span class="sd">    &gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(0,1000, 1001)</span>
+<span class="sd">    &gt;&gt;&gt; delta_x = x[1] - x[0]</span>
+<span class="sd">    &gt;&gt;&gt; y = np.array([1]*1001)</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=2.5e-03)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(0,1000, 10001)</span>
+<span class="sd">    &gt;&gt;&gt; delta_x = x[1] - x[0]</span>
+<span class="sd">    &gt;&gt;&gt; y = np.array([1]*10001)</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=5e-03)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(&#39;../../test/data/Testfile_2.csv&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df[&#39;I&#39;],delta_x=delta_x),delta_x=delta_x), cumulative_trapezoid(df[&#39;I&#39;],initial=0), rtol=1e-0)</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">prepare_kernel</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">w1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">w2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Lars Winkler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

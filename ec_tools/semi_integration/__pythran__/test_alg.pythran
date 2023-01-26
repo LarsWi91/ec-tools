@@ -1,0 +1,9 @@
+export prepare_kernel(float64, float64, int, int, int)
+
+export semi_integration(float64[:])
+export semi_integration(float64[:], float64)
+export semi_integration(float64[:], float64, float64)
+export semi_integration(float64[:], float64, float64, int)
+export semi_integration(float64[:], float64, float64, int, int)
+
+export __transonic__
