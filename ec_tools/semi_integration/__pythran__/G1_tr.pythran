@@ -1,0 +1,4 @@
+export semi_integration(float64[:], float64[:])
+export semi_integration(float64[:], float64[:], float64)
+
+export __transonic__

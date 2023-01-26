@@ -1,5 +1,5 @@
 r"""
-Implementation of a algorithm for semi-integration.
+Implementation of an algorithm for semi-integration.
 Fast Riemann-Liouville transformation (differintergration) - FRLT
 based on
 Pajkossy, T., Nyikos, L., 1984. Fast algorithm for differintegration. Journal of Electroanalytical Chemistry and Interfacial Electrochemistry 179, 65–69. https://doi.org/10.1016/S0022-0728(84)80275-2
@@ -8,9 +8,12 @@ TODO:
 """
 
 import numpy as np
+from transonic import Array, boost, set_compile_at_import
 
+set_compile_at_import(True)
 
-def prepare_kernel(q, delta_x, N, c1, c2):
+@boost
+def prepare_kernel(q:float, delta_x:float, N:int, c1:int, c2:int):
     r"""
     Setup the integration kernel with the order q, the x interval delat_x, the length of the array N,
     and the filter constants c1 and c2.
@@ -35,7 +38,8 @@ def prepare_kernel(q, delta_x, N, c1, c2):
     return s, w1, w2
 
 
-def semi_integration(y, q=-0.5, delta_x=1, c1=8, c2=2):
+@boost
+def semi_integration(y:"float[:]", q:float=-0.5, delta_x:float=1, c1:int=8, c2:int=2):
     """
     Return the semiintegral R of order q for y with the x interval delta_x and the filter constants
     c1 and c2.
@@ -56,6 +60,10 @@ def semi_integration(y, q=-0.5, delta_x=1, c1=8, c2=2):
     >>> delta_x = x[1] - x[0]
     >>> y = np.array([1]*10001)
     >>> np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=5e-03)
+    True
+    >>> import pandas as pd
+    >>> df = pd.read_csv('../../test/data/Testfile_2.csv')
+    >>> np.allclose(semi_integration(semi_integration(df['I'],delta_x=delta_x),delta_x=delta_x), cumulative_trapezoid(df['I'],initial=0), rtol=1e-0)
     True
     """
     N = y.size
