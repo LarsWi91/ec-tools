@@ -7,11 +7,12 @@ Oldham: Electrochemical Science and Technology, 2012
 """
 
 import numpy as np
-from transonic import boost, set_compile_at_import
+from transonic import jit, boost, set_compile_at_import
 
-set_compile_at_import(True)
+#set_compile_at_import(True)
 
-@boost
+#@boost
+@jit(backend = 'numba')
 def semi_integration(I: "float[:]",t: "float[:]",v: float=-0.5):
     """
     TEST:

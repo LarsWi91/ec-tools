@@ -11,3 +11,6 @@ dependencies:
   - pytest
   - pytest-doctestplus
   - scipy
+  - transonic
+  - pythran
+  - numba

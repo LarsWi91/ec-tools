@@ -8,11 +8,13 @@ TODO:
 """
 
 import numpy as np
-from transonic import Array, boost, set_compile_at_import
+from transonic import jit, boost, set_compile_at_import
 
-set_compile_at_import(True)
+#set_compile_at_import(True)
 
-@boost
+#@boost
+
+@jit(backend = 'numba')
 def prepare_kernel(q:float, delta_x:float, N:int, c1:int, c2:int):
     r"""
     Setup the integration kernel with the order q, the x interval delat_x, the length of the array N,
@@ -38,8 +40,9 @@ def prepare_kernel(q:float, delta_x:float, N:int, c1:int, c2:int):
     return s, w1, w2
 
 
-@boost
-def semi_integration(y:"float[:]", q:float=-0.5, delta_x:float=1, c1:int=8, c2:int=2):
+#@boost
+@jit(backend = 'numba')
+def semi_integration(y: "float[:]", delta_x:float=1.0 , q:float=-0.5, c1:int=8, c2:int=2):
     """
     Return the semiintegral R of order q for y with the x interval delta_x and the filter constants
     c1 and c2.

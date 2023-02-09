@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ec_tools.semi_integration package &mdash; Semiintegration Documentation 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="ec_tools package" href="ec_tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Semiintegration Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">New</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ec_tools.html">ec_tools package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ec_tools.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ec_tools.semi_integration package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ec_tools.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ec_tools.html#module-ec_tools.helper">ec_tools.helper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ec_tools.html#module-ec_tools">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp.html">tmp module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Semiintegration Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">New</a></li>
+          <li class="breadcrumb-item"><a href="ec_tools.html">ec_tools package</a></li>
+      <li class="breadcrumb-item active">ec_tools.semi_integration package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ec_tools.semi_integration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ec-tools-semi-integration-package">
+<h1>ec_tools.semi_integration package<a class="headerlink" href="#ec-tools-semi-integration-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-ec_tools.semi_integration.FRLT">
+<span id="ec-tools-semi-integration-frlt-module"></span><h2>ec_tools.semi_integration.FRLT module<a class="headerlink" href="#module-ec_tools.semi_integration.FRLT" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for semi-integration.
+Fast Riemann-Liouville transformation (differintergration) - FRLT
+based on
+Pajkossy, T., Nyikos, L., 1984. Fast algorithm for differintegration. Journal of Electroanalytical Chemistry and Interfacial Electrochemistry 179, 65–69. <a class="reference external" href="https://doi.org/10.1016/S0022-0728(84)80275-2">https://doi.org/10.1016/S0022-0728(84)80275-2</a>
+TODO:
+- evaluate if it is possible have varying Δx i.e. passing x array</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.FRLT.prepare_kernel">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.FRLT.</span></span><span class="sig-name descname"><span class="pre">prepare_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/FRLT.html#prepare_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.FRLT.prepare_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Setup the integration kernel with the order q, the x interval delat_x, the length of the array N,
+and the filter constants c1 and c2.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.FRLT.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.FRLT.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/FRLT.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.FRLT.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>Return the semiintegral R of order q for y with the x interval delta_x and the filter constants
+c1 and c2.</p>
+<p>Semi-integrating two times with order q = -0.5 should give the same result as integrating once.
+The relative error should not exceed 0.25 percent for 1000 and 0.5 percent per 10000 integration steps.
+TODO:: see #6
+- add test for non constant y values</p>
+<p>TEST:
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; x = np.linspace(0,1000, 1001)
+&gt;&gt;&gt; delta_x = x[1] - x[0]
+&gt;&gt;&gt; y = np.array([1]*1001)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=2.5e-03)
+True
+&gt;&gt;&gt; x = np.linspace(0,1000, 10001)
+&gt;&gt;&gt; delta_x = x[1] - x[0]
+&gt;&gt;&gt; y = np.array([1]*10001)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=5e-03)
+True
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; df = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df[‘I’],delta_x=delta_x),delta_x=delta_x), cumulative_trapezoid(df[‘I’],initial=0), rtol=1e-0)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.FRLT_tr">
+<span id="ec-tools-semi-integration-frlt-tr-module"></span><h2>ec_tools.semi_integration.FRLT_tr module<a class="headerlink" href="#module-ec_tools.semi_integration.FRLT_tr" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for semi-integration.
+Fast Riemann-Liouville transformation (differintergration) - FRLT
+based on
+Pajkossy, T., Nyikos, L., 1984. Fast algorithm for differintegration. Journal of Electroanalytical Chemistry and Interfacial Electrochemistry 179, 65–69. <a class="reference external" href="https://doi.org/10.1016/S0022-0728(84)80275-2">https://doi.org/10.1016/S0022-0728(84)80275-2</a>
+TODO:
+- evaluate if it is possible have varying Δx i.e. passing x array</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.FRLT_tr.prepare_kernel">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.FRLT_tr.</span></span><span class="sig-name descname"><span class="pre">prepare_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/FRLT_tr.html#prepare_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.FRLT_tr.prepare_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Setup the integration kernel with the order q, the x interval delat_x, the length of the array N,
+and the filter constants c1 and c2.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.FRLT_tr.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.FRLT_tr.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">y:</span> <span class="pre">float[:],</span> <span class="pre">delta_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.0,</span> <span class="pre">q:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-0.5,</span> <span class="pre">c1:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">8,</span> <span class="pre">c2:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/FRLT_tr.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.FRLT_tr.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>Return the semiintegral R of order q for y with the x interval delta_x and the filter constants
+c1 and c2.</p>
+<p>Semi-integrating two times with order q = -0.5 should give the same result as integrating once.
+The relative error should not exceed 0.25 percent for 1000 and 0.5 percent per 10000 integration steps.
+TODO:: see #6
+- add test for non constant y values</p>
+<p>TEST:
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; x = np.linspace(0,1000, 1001)
+&gt;&gt;&gt; delta_x = x[1] - x[0]
+&gt;&gt;&gt; y = np.array([1]*1001)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=2.5e-03)
+True
+&gt;&gt;&gt; x = np.linspace(0,1000, 10001)
+&gt;&gt;&gt; delta_x = x[1] - x[0]
+&gt;&gt;&gt; y = np.array([1]*10001)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(y, delta_x=delta_x), delta_x=delta_x), cumulative_trapezoid(y,x,initial=0), rtol=5e-03)
+True
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; df = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df[‘I’],delta_x=delta_x),delta_x=delta_x), cumulative_trapezoid(df[‘I’],initial=0), rtol=1e-0)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.G1">
+<span id="ec-tools-semi-integration-g1-module"></span><h2>ec_tools.semi_integration.G1 module<a class="headerlink" href="#module-ec_tools.semi_integration.G1" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for 
+semi-integration (v=-0.5) and semi-differentiation (v=0.5)
+Gruenwald (G1) 
+based on
+Oldham: Electrochemical Science and Technology, 2012</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.G1.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.G1.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">I:</span> <span class="pre">float[:],</span> <span class="pre">t:</span> <span class="pre">float[:],</span> <span class="pre">v:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/G1.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.G1.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>TEST:
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; df1 = pd.read_csv(‘../../test/data/Testfile_1.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df1[‘I’],df1[‘t’]), df1[‘t’])[:-1], cumulative_trapezoid(df1[‘I’],df1[‘t’]), rtol=1e-12)
+True
+&gt;&gt;&gt; df2 = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df2[‘I’],df2[‘t’]), df2[‘t’])[:-1], cumulative_trapezoid(df2[‘I’],df2[‘t’]), rtol=1e-2)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.G1_tr">
+<span id="ec-tools-semi-integration-g1-tr-module"></span><h2>ec_tools.semi_integration.G1_tr module<a class="headerlink" href="#module-ec_tools.semi_integration.G1_tr" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for 
+semi-integration (v=-0.5) and semi-differentiation (v=0.5)
+Gruenwald (G1) 
+based on
+Oldham: Electrochemical Science and Technology, 2012</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.G1_tr.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.G1_tr.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">I:</span> <span class="pre">float[:],</span> <span class="pre">t:</span> <span class="pre">float[:],</span> <span class="pre">v:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/G1_tr.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.G1_tr.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>TEST:
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; df1 = pd.read_csv(‘../../test/data/Testfile_1.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df1[‘I’],df1[‘t’]), df1[‘t’])[:-1], cumulative_trapezoid(df1[‘I’],df1[‘t’]), rtol=1e-12)
+True
+&gt;&gt;&gt; df2 = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df2[‘I’],df2[‘t’]), df2[‘t’])[:-1], cumulative_trapezoid(df2[‘I’],df2[‘t’]), rtol=1e-2)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.R1">
+<span id="ec-tools-semi-integration-r1-module"></span><h2>ec_tools.semi_integration.R1 module<a class="headerlink" href="#module-ec_tools.semi_integration.R1" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for 
+semi-integration (v=-0.5) and semi-differentiation (v=0.5)
+Riemann and Liouville semi-integration and semi-differentiation (R1)
+based on
+Oldham: Electrochemical Science and Technology, 2012</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.R1.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.R1.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/R1.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.R1.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>TEST:
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; df1 = pd.read_csv(‘../../test/data/Testfile_1.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df1[‘I’],df1[‘t’]), df1[‘t’])[:-1], cumulative_trapezoid(df1[‘I’],df1[‘t’]), rtol=1e-0)
+True
+&gt;&gt;&gt; df2 = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df2[‘I’],df2[‘t’]), df2[‘t’])[:-1], cumulative_trapezoid(df2[‘I’],df2[‘t’]), rtol=1e-0)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.R1_tr">
+<span id="ec-tools-semi-integration-r1-tr-module"></span><h2>ec_tools.semi_integration.R1_tr module<a class="headerlink" href="#module-ec_tools.semi_integration.R1_tr" title="Permalink to this heading"></a></h2>
+<p>Implementation of an algorithm for 
+semi-integration (v=-0.5) and semi-differentiation (v=0.5)
+Riemann and Liouville semi-integration and semi-differentiation (R1)
+based on
+Oldham: Electrochemical Science and Technology, 2012</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.R1_tr.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.R1_tr.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">I:</span> <span class="pre">float[:],</span> <span class="pre">t:</span> <span class="pre">float[:],</span> <span class="pre">v:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/R1_tr.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.R1_tr.semi_integration" title="Permalink to this definition"></a></dt>
+<dd><p>TEST:
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from scipy.integrate import cumulative_trapezoid
+&gt;&gt;&gt; df1 = pd.read_csv(‘../../test/data/Testfile_1.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df1[‘I’],df1[‘t’]), df1[‘t’])[:-1], cumulative_trapezoid(df1[‘I’],df1[‘t’]), rtol=1e-0)
+True
+&gt;&gt;&gt; df2 = pd.read_csv(‘../../test/data/Testfile_2.csv’)
+&gt;&gt;&gt; np.allclose(semi_integration(semi_integration(df2[‘I’],df2[‘t’]), df2[‘t’])[:-1], cumulative_trapezoid(df2[‘I’],df2[‘t’]), rtol=1e-0)
+True</p>
+</dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.semi_integration">
+<span id="ec-tools-semi-integration-semi-integration-module"></span><h2>ec_tools.semi_integration.semi_integration module<a class="headerlink" href="#module-ec_tools.semi_integration.semi_integration" title="Permalink to this heading"></a></h2>
+<p>Calls a semi-integration (v=-0.5) or semi-differentiation (v=0.5) method,
+including native implementation or with speed up.
+Available algorithms (alg=):</p>
+<blockquote>
+<div><p>“FRLT”      Fast Riemann-Liouville transformation
+“G1”        Gruenwald
+“R1”        Riemann and Liouville</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Available settings (set_flag=):</dt><dd><p>“py”        python implementation
+“jit”       numba just in time</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.semi_integration.clean_pytran">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.semi_integration.</span></span><span class="sig-name descname"><span class="pre">clean_pytran</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/semi_integration.html#clean_pytran"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.semi_integration.clean_pytran" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.semi_integration.pythranizing">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.semi_integration.</span></span><span class="sig-name descname"><span class="pre">pythranizing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alg_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/semi_integration.html#pythranizing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.semi_integration.pythranizing" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.semi_integration.semi_integration">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.semi_integration.</span></span><span class="sig-name descname"><span class="pre">semi_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FRLT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'transonic'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/semi_integration.html#semi_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.semi_integration.semi_integration" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-ec_tools.semi_integration.test">
+<span id="ec-tools-semi-integration-test-module"></span><h2>ec_tools.semi_integration.test module<a class="headerlink" href="#module-ec_tools.semi_integration.test" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.test.func">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.test.</span></span><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/test.html#func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.test.func" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ec_tools.semi_integration.test.my_log">
+<span class="sig-prename descclassname"><span class="pre">ec_tools.semi_integration.test.</span></span><span class="sig-name descname"><span class="pre">my_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ec_tools/semi_integration/test.html#my_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ec_tools.semi_integration.test.my_log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="ec-tools-semi-integration-test-alg-module">
+<h2>ec_tools.semi_integration.test_alg module<a class="headerlink" href="#ec-tools-semi-integration-test-alg-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-ec_tools.semi_integration">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ec_tools.semi_integration" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ec_tools.html" class="btn btn-neutral float-left" title="ec_tools package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup.html" class="btn btn-neutral float-right" title="setup module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Lars Winkler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

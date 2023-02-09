@@ -7,12 +7,14 @@ Oldham: Electrochemical Science and Technology, 2012
 """
 
 import numpy as np
-from transonic import boost, set_compile_at_import
+from transonic import jit, boost, set_compile_at_import
 
-set_compile_at_import(True)
+# set_compile_at_import(True)
+# @boost
 
-@boost
+@jit(backend = 'numba')
 def semi_integration(I: "float[:]",t: "float[:]", v:float =-0.5):
+    
 #def semi_integration(I:A,t:A, v:float=-0.5):
     '''
     TEST:
@@ -31,11 +33,11 @@ def semi_integration(I: "float[:]",t: "float[:]", v:float =-0.5):
     N_max = I.size
     # initialize with zeros
     G1 = np.zeros(N_max)
-    for N in range(0,N_max):
+    for N in range(1,N_max+1):
         # value for n = N with w0 = 1
         G1_i = I[0]; 
         #      go from N to 0
-        for n in range(N,0,-1):
-            G1_i = G1_i*((v+1)/n) + I[N-n+1]
-        G1[N] = G1_i*np.sqrt(delta)
+        for n in range(N-1,0,-1):
+            G1_i = G1_i*(1-(v+1)/n) + I[N-n]       
+        G1[N-1] = G1_i*np.sqrt(delta)
     return(G1)

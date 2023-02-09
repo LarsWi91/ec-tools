@@ -11,7 +11,13 @@ Available settings (set_flag=):
 """
 
 
-def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="jit"):
+from transonic import jit, boost,set_compile_at_import
+from ec_tools.semi_integration import G1 as G1
+@jit(backend = 'numba')            
+def alg(I: "float[:]",t: "float[:]", v:float =-0.5):
+    return G1.semi_integration(I,t)
+
+def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="transonic"):
 
     if alg == "FRLT":
         delta_x = t[1] - t[0]
@@ -19,11 +25,15 @@ def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="jit"):
             import FRLT as FRLT
             res = FRLT.semi_integration(I, delta_x=delta_x)
         elif set_flag == "jit":
-            import FRLT_nu as FRLT
-            res = FRLT.semi_integration(I, delta_x=delta_x)
+            # import FRLT_nu as FRLT
+            # res = FRLT.semi_integration(I, delta_x=delta_x)
+            from numba import jit
+            import FRLT as FRLT
+            mysetup = jit(FRLT.semi_integration)
+            res = mysetup(I, delta_x=delta_x)
         elif set_flag == "transonic":
-            import FRLT_tr as FRLT
-            res = FRLT.semi_integration(I, delta_x=delta_x)
+            from . import FRLT_tr as FRLT
+            res = FRLT.semi_integration(y=I, delta_x=delta_x)
         else:
             print("\nNo matching setting with choosen FRLT algorithm")
             res = "NaN"
@@ -34,11 +44,24 @@ def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="jit"):
             import G1 as G1
             res = G1.semi_integration(I, t)
         elif set_flag == "jit":
-            import G1_nu as G1
-            res = G1.semi_integration(I, t)
+            from numba import jit 
+            import G1 as G1
+            mysetup = jit(G1.semi_integration)
+            res = mysetup(I, t)
         elif set_flag == "transonic":
-            import G1_tr as G1
-            res = G1.semi_integration(I, t)
+            # from . import G1_tr as G1
+            # res = G1.semi_integration(I, t)
+
+            from . import G1 as G1
+            from transonic import jit, boost,set_compile_at_import
+            #set_compile_at_import(True)
+            # @boost
+            @jit(backend = 'numba')            
+            def alg(I: "float[:]",t: "float[:]", v:float =-0.5):
+                return G1.semi_integration(I,t)
+
+            res = alg(I,t) 
+
         else:
             print("\nNo matching setting with choosen G1 algorithm")
             res = "NaN"
@@ -49,8 +72,13 @@ def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="jit"):
             import R1 as R1
             res = R1.semi_integration(I, t)
         elif set_flag == "jit":
-            import R1_nu as R1
-            res = R1.semi_integration(I, t)
+            # import R1_nu as R1
+            # res = R1.semi_integration(I, t)
+            from numba import jit 
+            import R1 as R1
+            mysetup = jit(R1.semi_integration)
+            res = mysetup(I, t)
+
         elif set_flag == "transonic":
             import R1_tr as R1
             res = R1.semi_integration(I, t)
@@ -61,7 +89,7 @@ def semi_integration(I,t,v=-0.5, alg ="FRLT", set_flag="jit"):
     else:
         print("\nNo matching algorithm found with these flags")
         res = "NaN"
-    return(res)
+    return res
 
 
 import os

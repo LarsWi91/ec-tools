@@ -9,6 +9,14 @@ import csv
 import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
+# Define file name of export csv
+if len(sys.argv) == 2:
+    FILENAME = sys.argv[1]
+else:
+    FILENAME = 'numba_benchmark_results'
+
+FILENAME = ''.join(["results/",FILENAME])
+
 # get location of the relevant functions (in parent path)
 # and import them
 script_dir = os.path.dirname(__file__)
@@ -22,11 +30,13 @@ import semi_integration as si
 
 # Define list of Element sizes
 N_list = [1000,2500,5000,7500,10000,12500,15000,20000]
-# Define file name of export csv
-FILENAME = "results/numba_benchmark_results"
+
+print("--------------------------------------")
+print("Benchmark with Python code & Numba jit")
+print("--------------------------------------")
 
 # Define if csv export is desired
-csv_export = True
+csv_export = False
     
 # --------------------------------------
 # Fast Riemann-Liouville transformation
@@ -87,11 +97,6 @@ for i in range(0, np.size(N_list)):
         "| {:.2e}".format(e_rel_FRLT_max[i]),
     )
 
-# export current state
-
-
-# df_res.to_csv(''.join([FILENAME,'.csv']), index=False)
-
 # --------------------------------------
 # Gruenwald
 # --------------------------------------
@@ -148,9 +153,6 @@ for i in range(0, np.size(N_list)):
         "|    {:.2e}".format(e_G1_max[i]),
         "| {:.2e}".format(e_rel_G1_max[i]),
     )
-
-# export current state
-# df_res.to_csv(''.join([FILENAME,'.csv']), index=False)
 
 # --------------------------------------
 # Riemann-Liouville
@@ -210,22 +212,21 @@ for i in range(0, np.size(N_list)):
         "| {:.2e}".format(e_rel_R1_max[i]),
     )
 
+if csv_export == True:
+    # export results (by pandas)
+    import pandas as pd
 
-# export results (by pandas)
-import pandas as pd
-
-results = {
-    "N": N_list,
-    "t_FRLT": t_FRLT,
-    "e_FRLT_max": e_FRLT_max,
-    "e_rel_FRLT_max": e_rel_FRLT_max,
-    "t_G1": t_G1,
-    "e_G1_max": e_G1_max,
-    "e_rel_G1_max": e_rel_G1_max,
-    "t_R1": t_R1,
-    "e_R1_max": e_R1_max,
-    "e_rel_R1_max": e_rel_R1_max,
-}
-df_res = pd.DataFrame(results)
-
-df_res.to_csv("".join([FILENAME, ".csv"]), index=False)
+    results = {
+        "N": N_list,
+        "t_FRLT": t_FRLT,
+        "e_FRLT_max": e_FRLT_max,
+        "e_rel_FRLT_max": e_rel_FRLT_max,
+        "t_G1": t_G1,
+        "e_G1_max": e_G1_max,
+        "e_rel_G1_max": e_rel_G1_max,
+        "t_R1": t_R1,
+        "e_R1_max": e_R1_max,
+        "e_rel_R1_max": e_rel_R1_max,
+    }
+    df_res = pd.DataFrame(results)
+    df_res.to_csv("".join([FILENAME, ".csv"]), index=False)
